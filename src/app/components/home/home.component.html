@@ -1,0 +1,43 @@
+<div
+    [className]="'min-h-screen flex flex-col items-center justify-center p-6 transition-all duration-500 ' + theme().bgClass">
+
+    <div [className]="'w-full max-w-md rounded-2xl p-8 shadow-2xl ' + theme().cardBg + ' ' + theme().textClass">
+
+        <div class="text-center mb-8">
+
+            @if (theme().isLogoUrl) {
+            <img [src]="theme().logo" alt="Theme Logo"
+                class="w-16 h-16 rounded-full mx-auto mb-3 object-cover aspect-square border-2 border-fuchsia-500 animate-pulse" />
+            } @else if (theme().isIcon) {
+            <span
+                [className]="'material-icons !text-7xl inline-block mb-3 select-none transition-all duration-300 animate-pulse ' + theme().titleColor">
+                {{ theme().logo }}
+            </span>
+            } @else {
+            <span class="text-5xl inline-block mb-3 animate-bounce">
+                {{ theme().logo }}
+            </span>
+            }
+
+            <h1 [className]="'text-3xl font-extrabold tracking-tight mb-2 ' + theme().titleColor">
+                {{ theme().title }}
+            </h1>
+            <p class="text-sm opacity-80">{{ theme().subtitle }}</p>
+        </div>
+
+        <form (ngSubmit)="handleSubmit()" class="space-y-6">
+            <app-input label="Tu Nombre" placeholder="Escribe tu nombre aquí..." [(value)]="name" [required]="true"
+                [isVoiceSupported]="voiceService.isSupported()" [isListening]="voiceService.isListening()"
+                (voiceClick)="handleVoiceDictation()" [class]="theme().inputClass" />
+
+            <app-button type="submit"
+                [class]="theme().primaryButton + ' block mt-6 disabled:opacity-50 disabled:cursor-not-allowed'"
+                [disabled]="!name || name.trim() === ''">
+                Mostrar Información
+            </app-button>
+        </form>
+    </div>
+
+    <app-modal [isOpen]="isOpenModal()" [title]="'¡Hola!'" [content]="displayName()" (close)="isOpenModal.set(false)"
+        [bgClass]="theme().modalBg" [contentClass]="theme().modalContent" [buttonClass]="theme().modalButton" />
+</div>

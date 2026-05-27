@@ -1,0 +1,7 @@
+<button
+  [type]="type()"
+  [className]="'w-full py-3.5 rounded-xl font-medium tracking-wide transition-all shadow-lg active:scale-[0.98] ' + customClass()"
+  [disabled]="disabled()"
+>
+  <ng-content></ng-content>
+</button>

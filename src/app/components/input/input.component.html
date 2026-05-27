@@ -1,0 +1,18 @@
+<div class="w-full">
+  <label class="block text-sm font-semibold mb-2">{{ label() }}</label>
+  <div class="relative flex items-center">
+    <input [type]="type()" [(ngModel)]="value" [placeholder]="placeholder()" [required]="required()"
+      [className]="'w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 pr-12 ' + customClass()" />
+
+    @if (isVoiceSupported()) {
+    <button type="button" (click)="voiceClick.emit()" [className]="'absolute right-3 p-2 rounded-lg transition-colors ' + 
+      (isListening() ? 'bg-red-500 text-white animate-pulse' : 'text-slate-400 hover:text-white')"
+      title="Dictar por voz">
+      <span [className]="'material-icons select-none transition-colors ' + 
+        (isListening() ? 'text-red-500 animate-pulse scale-110' : 'text-stone-400 hover:text-stone-600')">
+        mic
+      </span>
+    </button>
+    }
+  </div>
+</div>

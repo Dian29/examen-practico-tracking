@@ -1,0 +1,16 @@
+@if (isOpen()) {
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+  <div [className]="'p-6 rounded-2xl max-w-sm w-full text-center shadow-2xl transition-all duration-300 ' + bgClass()">
+    <h3 [className]="'text-xl font-bold mb-2 ' + (contentClass().includes('rose') ? 'text-stone-900' : 'text-white')">
+      {{ title() }}
+    </h3>
+    <p [className]="'text-2xl font-extrabold break-words mb-6 ' + contentClass()">
+      {{ content() }}
+    </p>
+
+    <app-button (click)="close.emit()" [class]="buttonClass() + ' font-medium !py-2'">
+      Cerrar
+    </app-button>
+  </div>
+</div>
+}
