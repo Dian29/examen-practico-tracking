@@ -6,6 +6,8 @@
  * - Captura de entrada de nombre del usuario (voz o manual)
  * - Visualización de modal con el nombre ingresado
  * - Seguimiento de eventos de usuario para análisis
+ * - Integración con servicios de voz a texto y tracking
+ * 
  * 
  * @component
  * @standalone true
@@ -42,6 +44,7 @@ import { InputComponent } from '../input/input.component';
 export class HomeComponent implements OnInit {
     private trackingService = inject(TrackingService);
     protected voiceService = inject(VoiceToTextService);
+    private hasTrackedManualInput = false;
 
     theme = signal<ThemeConfiguration>(DEFAULT_THEME);
     name: string = '';
@@ -49,6 +52,7 @@ export class HomeComponent implements OnInit {
     isOpenModal = signal<boolean>(false);
 
     num = input<string>('1');
+
 
     ngOnInit(): void {
         const valorParametro = this.num();
@@ -70,6 +74,7 @@ export class HomeComponent implements OnInit {
     }
 
     handleVoiceDictation(): void {
+        this.hasTrackedManualInput = false;
         this.voiceService.startListening((text) => {
             this.name = text.replace(/[.]+$/, "");
             this.trackingService.trackEvent({ event: 'name_input', method: 'voice' });
@@ -88,5 +93,18 @@ export class HomeComponent implements OnInit {
         this.displayName.set(this.name);
         this.isOpenModal.set(true);
         this.trackingService.trackEvent({ event: 'name_displayed' });
+    }
+
+    handleManualTracking(currentValue: string): void {
+        if (currentValue.trim().length > 0 && !this.hasTrackedManualInput) {
+            this.trackingService.trackEvent({
+                event: 'name_input',
+                method: 'manual'
+            });
+            this.hasTrackedManualInput = true;
+        }
+        else if (currentValue.trim().length === 0) {
+            this.hasTrackedManualInput = false;
+        }
     }
 }

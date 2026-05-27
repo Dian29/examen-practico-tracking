@@ -28,7 +28,8 @@
         <form (ngSubmit)="handleSubmit()" class="space-y-6">
             <app-input label="Tu Nombre" placeholder="Escribe tu nombre aquí..." [(value)]="name" [required]="true"
                 [isVoiceSupported]="voiceService.isSupported()" [isListening]="voiceService.isListening()"
-                (voiceClick)="handleVoiceDictation()" [class]="theme().inputClass" />
+                (voiceClick)="handleVoiceDictation()" (manualInputChange)="handleManualTracking($event)"
+                [class]="theme().inputClass" />
 
             <app-button type="submit"
                 [class]="theme().primaryButton + ' block mt-6 disabled:opacity-50 disabled:cursor-not-allowed'"
